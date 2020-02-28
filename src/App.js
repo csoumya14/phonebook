@@ -34,7 +34,7 @@ const Form = ({
 };
 
 const NameList = ({ listNames }) => {
-  console.log("In NameList", listNames);
+  console.log("In NameList", listNames());
   return <div>{listNames()}</div>;
 };
 
@@ -51,12 +51,10 @@ const App = () => {
       setPersons(initialPersons);
     });
   }, []);
-  console.log("render", persons.length, "persons");
+  //console.log("render", persons.length, "persons");
 
   const addName = event => {
     event.preventDefault();
-    setNewName("");
-    setNewNumber("");
     const nameObject = {
       name: newName,
       number: newNumber,
@@ -67,14 +65,12 @@ const App = () => {
       p => p.name.toLowerCase() === newName.toLowerCase()
     );
     if (existingPerson) {
-      console.log("In addName - in if  branch - persons", persons);
       window.alert(`${newName} is already added to phonebook`);
     } else {
-      console.log("In addName - in else branch - persons", persons);
       personService.create(nameObject).then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
         console.log("In addName - in else branch - persons", persons);
-        setPersons("");
+        setNewName("");
         setNewNumber("");
       });
     }
